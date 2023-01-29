@@ -1,58 +1,61 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { environment } from '../environment/environment';
-import { User } from '../models/User';
+import { Register } from '../models/register';
+import { Result } from '../models/Result.dto';
+import { Token } from '../models/Token';
 
 export interface LoginForm {
-  email: string;
-  password: string;
-};
+  Email: string;
+  Password: string;
+}
 
 export const JWT_NAME = 'user-token';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthinticationService {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
-
-  login(loginForm: LoginForm) {  
-
-    return this.http.post<any>('/api/users/login', {email: loginForm.email, password: loginForm.password}).pipe(
-      map((token) => {
-        if(token === undefined){
-          return "wrong email or password"
-        }
-        console.log('token' + token.access_token);
-        localStorage.setItem(JWT_NAME, token.access_token);
-        return token;
+  login(loginForm: LoginForm) {
+    console.log(loginForm);
+    
+    return this.http
+      .post<Result<Token>>(environment.apiBaseURL + 'users/signin', {
+        Email: loginForm.Email,
+        Password: loginForm.Password,
       })
-    )
+      .pipe(
+        map((res) => {
+          if (res.Errors.length!==0) {
+            return res.Errors;
+          }
+          localStorage.setItem(JWT_NAME, res.results.token);
+          return '';
+        })
+      );
   }
 
   logout() {
     localStorage.removeItem(JWT_NAME);
   }
 
-  register(user: User) {
-    user.IsOwner=false;
-    console.log(user);
-    
-    return this.http.post<any>(environment.apiBaseURL+'users', user).pipe(
-      map((token) => {
-        console.log(token);
-        
-        if(token === null){
-          return "Email is registered";
-        }
-        console.log('token' + token.token);
-        localStorage.setItem(JWT_NAME, token.token);
-        return token;
-      })
-    );
+  register(user: Register) {
+
+    return this.http
+      .post<Result<Token>>(environment.apiBaseURL + 'users/signup', user)
+      .pipe(
+        map((res) => {
+          if (res.Errors.length!==0) {
+            return res.Errors;
+          }
+          localStorage.setItem(JWT_NAME, res.results.token);
+          return '';
+        })
+      );
   }
 
   isAuthenticated(): boolean {
@@ -60,11 +63,11 @@ export class AuthinticationService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
-  getUserId(): Observable<number>{
+  getUser(): Observable<number> {
     return of(localStorage.getItem(JWT_NAME)).pipe(
-      switchMap((jwt: string) => of(this.jwtHelper.decodeToken(jwt)).pipe(
-        map((jwt: any) => jwt.user.id)
+      switchMap((jwt: any) =>
+        of(this.jwtHelper.decodeToken(jwt)).pipe(map((jwt: any) => jwt))
       )
-    ));
+    );
   }
 }

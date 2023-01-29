@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 import { FilterObject } from 'src/app/models/filter-object';
 import { CrudService } from 'src/app/services/crud.service';
 import { Router } from '@angular/router';
+import { AuthinticationService } from 'src/app/services/authintication.service';
 
 @Component({
   selector: 'app-restaurants-listing',
@@ -18,16 +19,20 @@ export class RestaurantsListingComponent implements OnInit, AfterViewInit{
   keyWord: string;
   environment = environment;
   dataSource = new MatTableDataSource<Restaurant>();
+  userCredentials:any;
   paginatorTotal: number;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   displayedColumns: string[] = ['name', 'category'];
   filterObject = new FilterObject();
 
-  constructor(private router: Router, private _crudService:CrudService) {
+  constructor(private router: Router, private _crudService:CrudService, private authService: AuthinticationService) {
     
   }
 
   ngOnInit(): void {
+    this.authService.getUser().subscribe(res => this.userCredentials=res);
+    console.log(this.userCredentials);
+    
     this.dataSource.paginator = this.paginator;
     merge(this.paginator.page)
       .pipe(

@@ -28,11 +28,18 @@
 
               <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef > Status </th>
-                <td mat-cell *matCellDef="let element" >{{element.Status}}</td>
+                <td mat-cell *matCellDef="let element" >
+                  <ng-select [items]="statuses" 
+                  [ngModelOptions]="{standalone: true}"
+                  bindLabel="status" 
+                  bindValue="status" 
+                  [(ngModel)]="element.Status"
+                  [searchable]="false">
+                  </ng-select>  </td>
               </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns" class=""></tr>
-            <tr mat-row *matRowDef="let order; columns: displayedColumns;" class="cursor-pointer"></tr>
+            <tr mat-row *matRowDef="let order; columns: displayedColumns;" class=""></tr>
           </table>
       
         </div>

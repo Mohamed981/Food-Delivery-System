@@ -1,1 +1,17 @@
-<p>add-item works!</p>
+<form [formGroup]="itemForm">
+    <h1 style="text-align: center;">
+        Add Item
+    </h1>
+    <div class="container">
+        <mat-form-field>
+            <input matInput placeholder="Item Name" formControlName="ItemName" [(ngModel)]="item.ItemName">
+            <mat-hint *ngIf="itemForm.controls['ItemName']?.errors">Name is required</mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Item Price" formControlName="ItemPrice" [(ngModel)]="item.ItemPrice">
+            <mat-hint *ngIf="itemForm.controls['ItemPrice']?.errors">Category is required</mat-hint>
+        </mat-form-field>
+        
+    </div>
+</form>
+<button mat-flat-button color="primary" [disabled]="!itemForm.valid" (click)="onSubmit()">Add</button>

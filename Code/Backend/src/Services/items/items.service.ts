@@ -22,10 +22,11 @@ export class ItemsService {
     await this.itemRepository.save(newItem);
     restaurant.items.push(newItem);
     this.restaurantRepository.save(restaurant);
+    
   }
 
   async updateItem(id: number, itemDTO: ItemDTO) {
-    await this.itemRepository.update({ id }, { ...itemDTO });
+    await this.itemRepository.save({ ...itemDTO });
   }
 
   deleteItem(id: number) {
@@ -33,6 +34,8 @@ export class ItemsService {
   }
 
   async getPaginatedItems(filterModel: FilterModel) {
+    console.log(filterModel);
+    
     let items = await this.itemRepository.find({
         relations: { restaurant: true },
       where: { restaurant: { RestaurantName: filterModel.SearchObject } },
@@ -42,6 +45,7 @@ export class ItemsService {
         id: true,
       },
     });
+  
     let pagedResult: PagedResult<ItemDTO> = new PagedResult<ItemDTO>();
     const start = (filterModel.PageNumber - 1) * filterModel.PageSize;
     const end = Math.min(items.length, start + filterModel.PageSize);

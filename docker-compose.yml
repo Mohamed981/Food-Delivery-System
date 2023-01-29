@@ -2,54 +2,54 @@ version: '3'
 
 services:
 # Database
-  mysql_database:
-    image: mysql
-    restart: always
-    environment: 
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: restaurants
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 1234
-      DB_HOST: mysql_database
-    volumes: 
-      - mysql:/var/lib/mysql
-# phpmyadmin
-  phpmyadmin:
-    depends_on:
-      - server
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: mysql_database
-      MYSQL_ROOT_PASSWORD: 1234
-# server
-  server:
-    depends_on:
-      - mysql_database
-    image: js/server:1.0.0
-    build: 
-      context: ./Backend
-    ports:
-      - 5000:3000
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: user
-      MYSQL_DATABASE: restaurants
-      DB_HOST: mysql_database
-volumes:
-  mysql: {}
-
-# # angular
-#   angular:
+#   mysql_database:
+#     image: mysql
+#     restart: always
+#     environment: 
+#       MYSQL_ROOT_PASSWORD: 1234
+#       MYSQL_DATABASE: restaurants
+#       MYSQL_USER: user
+#       MYSQL_PASSWORD: 1234
+#       DB_HOST: mysql_database
+#     volumes: 
+#       - mysql:/var/lib/mysql
+# # phpmyadmin
+#   phpmyadmin:
 #     depends_on:
 #       - server
-#     image: js/angular:1.0.0
-#     build: 
-#       contrext: ./Frontend
+#     image: phpmyadmin/phpmyadmin
+#     restart: always
 #     ports:
-#       - 4200:4200
+#       - "8080:80"
+#     environment:
+#       PMA_HOST: mysql_database
+#       MYSQL_ROOT_PASSWORD: 1234
+# # server
+#   server:
+#     depends_on:
+#       - mysql_database
+#     image: js/server:1.0.0
+#     build: 
+#       context: ./Code/Backend
+#     ports:
+#       - 5000:3000
+#     environment:
+#       MYSQL_ROOT_PASSWORD: 1234
+#       MYSQL_USER: user
+#       MYSQL_DATABASE: restaurants
+#       DB_HOST: mysql_database
+# volumes:
+#   mysql: {}
+
+# angular
+  angular:
+    # depends_on:
+    #   - server
+    image: js/angular:1.0.0
+    build: 
+      context: ./Code/Frontend
+    ports:
+      - 4200:4200
 
   
 

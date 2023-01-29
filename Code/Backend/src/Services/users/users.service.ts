@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Token, UserDTO, UserToken } from 'src/dtos';
-import { User } from 'src/typeorm';
+import { Login, Register, RestaurantDTO, Token, UserDTO, UserToken } from 'src/dtos';
+import { Restaurant, User } from 'src/typeorm';
 import { hashPassword, isPasswordCorrect } from 'src/utils/hashing';
 import { Repository } from 'typeorm';
 
@@ -11,13 +11,19 @@ import { Repository } from 'typeorm';
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Restaurant)
+    private restaurantRepository: Repository<Restaurant>,
     private readonly jwtService: JwtService,
     private config: ConfigService,
   ) {}
   findUsers() {
     return this.userRepository.find();
   }
-  async getTokens(userId: number, isOwner: boolean,  email: string): Promise<Token> {
+  async getTokens(
+    userId: number,
+    isOwner: boolean,
+    email: string,
+  ): Promise<Token> {
     const jwtPayload: UserToken = {
       sub: userId,
       isOwner: isOwner,
@@ -29,8 +35,17 @@ export class UsersService {
       expiresIn: '15m',
     });
 
-    return {token:at};
+    return { token: at };
   }
+
+  async IsRegistered(Email:string){
+    const user = await this.userRepository.findOne({
+      where: { Email: Email },
+    });
+    if(user) return true;
+    return false;
+  }
+  
   async findUser(id: number, userDTO: UserDTO) {
     const user = await this.userRepository.findOneBy({ id });
     const pass = await isPasswordCorrect(
@@ -42,8 +57,18 @@ export class UsersService {
     else return 'Password is incorrect';
   }
 
-  async createUser(userDetails: UserDTO) {
-    console.log(userDetails);
+  async loginUser(login: Login) {
+    const user = await this.userRepository.findOne({
+      where: { Email: login.Email },
+    });
+    if (
+      !user ||
+      !(await isPasswordCorrect(login.Password, user.Password, user.Salt))
+    )
+      return null;
+    return user;
+  }
+  async createUser(userDetails: Register) {
     const user = await this.userRepository.findOne({
       where: { Email: userDetails.Email },
     });
@@ -52,10 +77,12 @@ export class UsersService {
       userDetails.Password = e.hash;
       userDetails.Salt = e.salt;
     });
-    const newUser = this.userRepository.create({ ...userDetails });
-    this.userRepository.save(newUser);
-    const token = await this.getTokens(newUser.id, newUser.IsOwner, newUser.Email);
-    return token;
+    const newUser = await this.userRepository.create({ ...userDetails });
+    
+    await this.userRepository.save(newUser);
+    
+    return newUser;
+
   }
   async updateUser(id: number, userDTO: UserDTO) {
     return this.userRepository.update({ id }, { ...userDTO });

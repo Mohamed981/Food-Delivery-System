@@ -1,5 +1,6 @@
 export class Item{
+    id?:number;
     ItemName:string;
-    ItemPrice:string;
-    restaurantId:number;
+    ItemPrice:number;
+    restaurantId?:number;
 }

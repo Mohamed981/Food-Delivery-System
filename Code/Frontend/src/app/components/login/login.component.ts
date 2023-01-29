@@ -1,41 +1,43 @@
 import { Component } from '@angular/core';
-import { AuthinticationService, JWT_NAME } from '../../services/authintication.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AuthinticationService,
+} from '../../services/authintication.service';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
-  
+  errors: string[];
+
   constructor(
     private authService: AuthinticationService,
-    private formBuilder: FormBuilder,
     private router: Router
-    ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email, Validators.minLength(6)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(3)])
-    })
+      Email: new FormControl(null, [Validators.required, Validators.email]),
+      Password: new FormControl(null, [Validators.required]),
+    });
   }
 
   onSubmit() {
-    if(this.loginForm.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
-    this.authService.login(this.loginForm.value).pipe(
-      //map(token => this.router.navigate(['restaurants']))
-    ).subscribe(res => {console.log(res)
-      if(localStorage.getItem(JWT_NAME) === undefined)
-        console.log(res);
-      }
-    )
+    console.log(this.loginForm.value);
     
+    this.authService.login(this.loginForm.value).subscribe((res:string[]) => {
+      if (res.length !== 0) this.errors = res;
+      else this.router.navigate(['restaurants']);
+    });
   }
 }

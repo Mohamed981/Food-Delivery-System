@@ -2,16 +2,15 @@ import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
-import {
-  AuthinticationService,
-  JWT_NAME,
-} from 'src/app/services/authintication.service';
+import { Register } from 'src/app/models/register';
+import { AuthinticationService } from 'src/app/services/authintication.service';
+import { CrudService } from 'src/app/services/crud.service';
 
 class CustomValidators {
   static passwordContainsNumber(control: AbstractControl): ValidationErrors {
@@ -46,15 +45,27 @@ class CustomValidators {
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  errors: string;
+  restaurantForm: FormGroup;
+  userCredentials: any;
+  registeredUser: Register;
+  errors: string[];
 
   constructor(
     private authService: AuthinticationService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private crudService: CrudService
   ) {}
 
   ngOnInit(): void {
+    this.registeredUser={
+      Username:"",
+      Category:"",
+      Email:"",
+      IsOwner:false,
+      Password:"",
+      RestaurantName:""
+    }
     this.registerForm = this.formBuilder.group(
       {
         Username: [null, [Validators.required]],
@@ -71,20 +82,39 @@ export class RegisterComponent {
           ],
         ],
         ConfirmPassword: [null, [Validators.required]],
+        IsOwner: [null, [Validators.required]],
       },
       {
         validators: CustomValidators.passwordsMatch,
       }
     );
+    this.restaurantForm = new FormGroup({
+      RestaurantName: new FormControl(null, [Validators.required]),
+      Category: new FormControl(null, [Validators.required]),
+    });
   }
 
+  isValid() {
+    if (!this.registerForm.valid) return false;
+    if (this.registerForm.value.IsOwner === false) return true;
+    else if (this.registerForm.value.IsOwner && this.restaurantForm.valid)
+      return true;
+    return false;
+  }
   onSubmit() {
-    if (this.registerForm.invalid) {
-      return;
-    }
-    this.authService.register(this.registerForm.value).subscribe((res) => {
-      if (localStorage.getItem(JWT_NAME) === 'undefined') {this.errors = res;}
-      else this.router.navigate(['restaurants']);
+    console.log(this.registeredUser);
+    
+    if (!this.registerForm.valid) return;
+    if (this.registerForm.value.IsOwner && !this.restaurantForm.valid) return;
+    this.authService.register(this.registeredUser).subscribe((res:string[]) => {
+      if (res.length !== 0) {
+        this.errors = res;
+      }
+      else{
+        this.authService.getUser().subscribe((res) => (this.userCredentials = res));
+        this.router.navigate(['restaurants/',this.registeredUser.RestaurantName]);
+      }
+      
     });
   }
 }

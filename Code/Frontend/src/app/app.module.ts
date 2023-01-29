@@ -12,13 +12,13 @@ import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { SaveModalComponent } from './components/modals/save-modal/save-modal.component';
+
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, RegisterComponent, SaveModalComponent],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
@@ -26,10 +26,9 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     FormsModule,
     SharedModule,
     HttpClientModule,
-    MatFormFieldModule,
-    MatInputModule
+    
   ],
-  providers: [CrudService,RequestService,JwtHelperService, 
+  providers: [CrudService,RequestService,JwtHelperService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {
       provide: HTTP_INTERCEPTORS,

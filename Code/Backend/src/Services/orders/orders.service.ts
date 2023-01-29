@@ -68,9 +68,12 @@ export class OrdersService {
         },
       },
     });
+    
     const restaurantOrders: RestaurantOrderDTO[] = [];
-    let restaurantOrder: RestaurantOrderDTO = new RestaurantOrderDTO();
+    let restaurantOrder: RestaurantOrderDTO = null;
     for (let e of orders) {
+      restaurantOrder = new RestaurantOrderDTO()
+      
       restaurantOrder.orderId = e.id;
       restaurantOrder.Status = e.Status;
       restaurantOrder.TotalPrice = e.TotalPrice;

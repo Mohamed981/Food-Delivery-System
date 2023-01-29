@@ -4,13 +4,18 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="container">
         <mat-form-field>
-            <input matInput placeholder="Email" formControlName="email">
-            <mat-hint *ngIf="loginForm.controls['email'].errors">Email is required</mat-hint>
+            <input matInput placeholder="Email" formControlName="Email">
+            <mat-hint *ngIf="loginForm.controls['Email']?.errors">Email is required</mat-hint>
         </mat-form-field>
         <mat-form-field>
-            <input matInput type="password" placeholder="Password" formControlName="password">
-            <mat-hint *ngIf="loginForm.controls['password'].errors">Password is required</mat-hint>
+            <input matInput type="password" placeholder="Password" formControlName="Password">
+            <mat-hint *ngIf="loginForm.controls['Password']?.errors">Password is required</mat-hint>
         </mat-form-field>
         <button mat-flat-button color="primary" [disabled]="!loginForm.valid" type="submit">Login</button>
     </div>
 </form>
+<div *ngIf="errors?.length">
+    <div *ngFor="let error of errors">
+        {{error}}
+    </div>
+</div>

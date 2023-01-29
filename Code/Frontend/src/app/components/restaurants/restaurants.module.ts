@@ -7,6 +7,7 @@ import { RestaurantsRoutingModule } from './restaurants-routing.module';
 import { RestaurantsComponent } from './restaurants.component';
 import { RestaurantOrdersComponent } from './restaurant-orders/restaurant-orders.component';
 import { AddItemComponent } from './add-item/add-item.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { AddItemComponent } from './add-item/add-item.component';
     AddItemComponent,
     RestaurantOrdersComponent,
   ],
-  imports: [SharedModule, RestaurantsRoutingModule],
+  imports: [SharedModule, RestaurantsRoutingModule,NgSelectModule],
 })
 export class RestaurantsModule {}

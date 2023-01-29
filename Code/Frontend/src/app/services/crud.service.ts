@@ -23,6 +23,8 @@ export class CrudService {
         return this._requestService.SendRequest('GET', environment.apiBaseURL + ControllerName + '/' + name, null);
     }
     add <T>(ControllerName: string, addedObject: Object): Observable<T[]> {
+      console.log(addedObject);
+      
         return this._requestService.SendRequest('POST', environment.apiBaseURL + ControllerName, addedObject);
     }
     edit <T>(ControllerName: string, editedObject: Object, id: number): Observable<T> {

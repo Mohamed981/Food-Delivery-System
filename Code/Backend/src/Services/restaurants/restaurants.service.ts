@@ -11,6 +11,14 @@ export class RestaurantsService {
     private restaurantRepository: Repository<Restaurant>,
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
+
+  async IsRegistered(name: string) {
+    let restaurant = await this.restaurantRepository.findOne({
+      where: { RestaurantName: name },
+    });
+    if (restaurant) return true;
+    return false;
+  }
   async createRestaurant(restaurantDTO: RestaurantDTO) {
     let user = await this.userRepository.findOne({
       where: { id: restaurantDTO.userId },
@@ -21,11 +29,10 @@ export class RestaurantsService {
     });
     newRestaurant.user = user;
     this.restaurantRepository.insert(newRestaurant);
+    return newRestaurant;
   }
 
-  async getPaginatedRestaurants(
-    filterModel: FilterModel,
-  ) {
+  async getPaginatedRestaurants(filterModel: FilterModel) {
     let restaurants = await this.restaurantRepository.find({
       where: [
         { RestaurantName: Like(filterModel.SearchObject + '%') },
@@ -46,5 +53,14 @@ export class RestaurantsService {
     else restaurants = restaurants.slice(start, end);
     pagedResult.Results = restaurants.map((item) => new RestaurantDTO(item));
     return pagedResult;
+  }
+
+  async GetRestaurantByName(name: string) {
+    let restaurant = await this.restaurantRepository.findOne({
+      where: { RestaurantName: name },
+    });
+
+    let restaurantDTO: RestaurantDTO = new RestaurantDTO(restaurant);
+    return restaurantDTO;
   }
 }

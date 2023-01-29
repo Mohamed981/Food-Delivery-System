@@ -1,1 +1,19 @@
-<p>add-restaurant works!</p>
+<h1 style="text-align: center;">
+    Add Restaurant
+</h1>
+<form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+        <mat-form-field>
+            <input matInput placeholder="RestaurantName" formControlName="RestaurantName">
+            <mat-hint *ngIf="restaurantForm.controls['RestaurantName']?.errors">Name is required</mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="Category" placeholder="Restaurant Category" formControlName="Category">
+            <mat-hint *ngIf="restaurantForm.controls['Category']?.errors">Category is required</mat-hint>
+        </mat-form-field>
+        <button mat-flat-button color="primary" [disabled]="!restaurantForm.valid" type="submit">Create</button>
+    </div>
+</form>
+<div *ngIf="errors">
+    {{errors}}
+</div>
