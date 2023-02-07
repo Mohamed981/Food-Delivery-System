@@ -34,7 +34,6 @@ export class ItemsService {
   }
 
   async getPaginatedItems(filterModel: FilterModel) {
-    console.log(filterModel);
     
     let items = await this.itemRepository.find({
         relations: { restaurant: true },

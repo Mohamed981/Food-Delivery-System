@@ -1,13 +1,14 @@
 .mat-table__wrapper {
-    width: 100%;
+    width: 80%;
     -webkit-box-shadow: -2px -1px 15px 7px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: -3px -2px 30px 14px rgba(0, 0, 0, 0.425);
     box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.35);
     border-radius: 4px;
-
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
     .mat-mdc-table {
-        min-width: 1000px;
-
+        
         .mat-mdc-cell,
         .mat-mdc-footer-cell,
         .mat-mdc-header-cell {
@@ -16,12 +17,13 @@
             font-size: 30px;
         }
 
-        .mat-mdc-row {
-            transition: padding 0.3s ease;
+        .row{
+            display: inline;
         }
-
         .row:hover {
-            color: red;
+            cursor: pointer;
+            transition: background-color 1s ease;
+            color: blue;
             background-color: grey;
         }
 

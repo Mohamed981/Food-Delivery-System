@@ -1,0 +1,33 @@
+nav {
+    background-color: #ffffff;
+    overflow: hidden;
+    box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.35);
+    margin: 0px 0px 20px;
+}
+
+  ul li{
+    list-style-type: none;
+    float: left;
+  }
+
+li a {
+    float: left;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 25px;
+  }
+  /* Change the color of links on hover */
+  li a:hover {
+    background-color: #b7b7b7;
+    color: black;
+  }
+  /* Add a color to the active/current link */
+  li a.active {
+    background-color: #d43565;
+    color: white;
+  }
+  .logout{
+    float: right;
+  }

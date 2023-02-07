@@ -15,18 +15,21 @@ SendRequest(method: string, url: string, data: any): Observable<any> {
 
   return this.http.request(method, url,
   {
-          //headers: this.jwt(),
+          headers: this.jwt(),
           body: data
           });
   }
 
   private jwt() {
   // create authorization header with jwt token
-      const token = localStorage.getItem('accessToken');
-          const headers = new HttpHeaders({
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token,
-          });
-          return headers;
+      const token = localStorage.getItem('user-Token');
+      if(token){
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+      });
+      return headers;
+      }    
+      return new HttpHeaders;
   }
 }

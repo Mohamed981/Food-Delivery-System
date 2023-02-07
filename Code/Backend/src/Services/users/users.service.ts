@@ -2,7 +2,14 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Login, Register, RestaurantDTO, Token, UserDTO, UserToken } from 'src/dtos';
+import {
+  Login,
+  Register,
+  RestaurantDTO,
+  Token,
+  UserDTO,
+  UserToken,
+} from 'src/dtos';
 import { Restaurant, User } from 'src/typeorm';
 import { hashPassword, isPasswordCorrect } from 'src/utils/hashing';
 import { Repository } from 'typeorm';
@@ -38,14 +45,14 @@ export class UsersService {
     return { token: at };
   }
 
-  async IsRegistered(Email:string){
+  async IsRegistered(Email: string) {
     const user = await this.userRepository.findOne({
       where: { Email: Email },
     });
-    if(user) return true;
+    if (user) return true;
     return false;
   }
-  
+
   async findUser(id: number, userDTO: UserDTO) {
     const user = await this.userRepository.findOneBy({ id });
     const pass = await isPasswordCorrect(
@@ -78,11 +85,10 @@ export class UsersService {
       userDetails.Salt = e.salt;
     });
     const newUser = await this.userRepository.create({ ...userDetails });
-    
-    await this.userRepository.save(newUser);
-    
-    return newUser;
 
+    await this.userRepository.save(newUser);
+
+    return newUser;
   }
   async updateUser(id: number, userDTO: UserDTO) {
     return this.userRepository.update({ id }, { ...userDTO });

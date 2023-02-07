@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./assets/table";
+@import "./assets/nav";
+
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 .angular-bootstrap-table {
     overflow-x: auto;
@@ -24,24 +27,24 @@ input:hover {
     box-shadow: inset 0 -2px rgb(180, 47, 47);
 }
 
-input,
-fieldset {
-    font-family: sans-serif;
-    font-size: 1em;
-    margin: 0;
-    padding: 0;
-    border: 1;
-    line-height: 1.5;
-    text-align: center;
-}
+// input,
+// fieldset {
+//     font-family: sans-serif;
+//     font-size: 1em;
+//     margin: 0;
+//     padding: 0;
+//     border: 1;
+//     line-height: 1.5;
+//     text-align: center;
+//     padding: 10px;
+// }
 
-input {
-    color: inherit;
-    
-    height: .5em;
-    padding: .25em 0;
-    width: 80px;
-    size: 1px
+.search{
+    height: 3em;
+    padding: 10px 10px;
+    width: 280px;
+    text-align: start;
+    margin-left:30px;
 }
 
 input:focus {
@@ -53,13 +56,14 @@ input:focus {
 }
 
 .btn{
-    background-color: #94bebe;
+    background-color: yellowgreen;
     border-radius: 4px;
     border: #051a1a;
     color:white;
     padding: 10px 10px 10px 10px;
     margin: 10px 10px 10px 10px;
-    font-size: 30px;
+    font-size: 20px;
+    text-align: center;
 }
 .btn:hover{
     background-color: #77a3a3;
@@ -76,6 +80,6 @@ input:focus {
 }
 body{
     background-color: #bfc7c7;
-    align-items: center;
-    display: flex;
+    // align-items: center;
+    // display: flex;
 }

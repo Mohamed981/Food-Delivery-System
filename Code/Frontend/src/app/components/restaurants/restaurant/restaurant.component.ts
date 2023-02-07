@@ -22,7 +22,7 @@ export class RestaurantComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Item>();
   paginatorTotal: number;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['name', 'category', 'action', 'edit'];
+  displayedColumns: string[] = ['name', 'price', 'action', 'edit'];
   filterObject = new FilterObject();
   editable: boolean[] = [];
   counter: number[] = null;

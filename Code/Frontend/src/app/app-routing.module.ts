@@ -1,26 +1,47 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
-const appRoutes: Routes = [
-  {path:'',component:HomeComponent},
+const routes: Routes = [
+  {
+    path: '',
+    canActivate:[AuthGuardService],
+    loadChildren: () =>
+      import('./components/pages/pages.module').then((m) => m.PagesModule),
+  },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    data: {
+      permissions: {
+        except: 'Admin',
+      },
+    },
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    data: {
+      permissions: {
+        except: 'Admin',
+      },
+    },
   },
-  { path: 'restaurants', loadChildren: () => import('./components/restaurants/restaurants.module').then(m => m.RestaurantsModule) },
-  { path: '**', redirectTo: '/not-found' }  
+  {
+    path: '404',
+    component: ErrorPageComponent,
+    
+  },
+  {
+    path: '**',
+    redirectTo: '404',
+  },
 ];
-
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
-  exports:[RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

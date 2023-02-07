@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.sass']
+  template: `<router-outlet></router-outlet>`,
 })
-export class OrdersComponent {
-
-}
+export class OrdersComponent {}

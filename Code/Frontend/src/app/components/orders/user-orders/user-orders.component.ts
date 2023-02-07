@@ -1,45 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { FilterObject } from 'src/app/models/filter-object';
 import { RestaurantOrder } from 'src/app/models/restaurant-order';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AuthinticationService } from 'src/app/services/authintication.service';
 import { CrudService } from 'src/app/services/crud.service';
 
 @Component({
-  selector: 'app-restaurant-orders',
-  templateUrl: './restaurant-orders.component.html',
+  selector: 'app-user-orders',
+  templateUrl: './user-orders.component.html'
 })
-export class RestaurantOrdersComponent implements OnInit {
+export class UserOrdersComponent implements OnInit{
   
-  keyWord: string;
-  restaurantName: string;
+  userCredentials: any;
   dataSource = new MatTableDataSource<RestaurantOrder>();
   paginatorTotal: number;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['customer', 'items', 'totalPrice', 'status'];
-  statuses = [
-    { id: 1, status: 'Preparing' },
-    { id: 2, status: 'Delivering' },
-    { id: 3, status: 'Delivered' },
-  ];
-  status: string = null;
-  filterObject = new FilterObject();
+  displayedColumns: string[] = ['items', 'totalPrice', 'status'];
 
   constructor(
-    private router: Router,
+    private authService: AuthinticationService,
     private _crudService: CrudService,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.restaurantName = this.route.snapshot.paramMap.get('restaurantName');
+    this.authService.getUser().subscribe((res) => (this.userCredentials = res));
     this.getOrdersList();
   }
-
   getOrdersList() {
     this._crudService
-      .getByName('orders', this.restaurantName)
+      .getById('orders/userOrders', this.userCredentials.sub)
       .subscribe((result: any) => {
         this.dataSource = new MatTableDataSource(result);
         console.log(result);

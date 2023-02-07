@@ -68,22 +68,50 @@ export class OrdersService {
         },
       },
     });
-    
+
     const restaurantOrders: RestaurantOrderDTO[] = [];
     let restaurantOrder: RestaurantOrderDTO = null;
     for (let e of orders) {
-      restaurantOrder = new RestaurantOrderDTO()
-      
+      restaurantOrder = new RestaurantOrderDTO();
+
       restaurantOrder.orderId = e.id;
       restaurantOrder.Status = e.Status;
       restaurantOrder.TotalPrice = e.TotalPrice;
       restaurantOrder.userId = e.user.id;
       restaurantOrder.Username = e.user.Username;
       let arr = e.orderedItems.map((e) => e.item.ItemName);
-      restaurantOrder.Items=arr.join(',');
+      restaurantOrder.Items = arr.join(',');
       restaurantOrders.push(restaurantOrder);
     }
-    
+
     return restaurantOrders;
   }
+  async getUserOrders(id: number) {
+    const orders = await this.orderRepository.find({
+      where: {
+        user: {
+          id: id,
+        },
+      },
+      relations: {
+        orderedItems: {
+          item: true,
+        },
+      },
+    });
+    const userOrders: RestaurantOrderDTO[] = [];
+    let userOrder: RestaurantOrderDTO = null;
+    for (let e of orders) {
+      userOrder = new RestaurantOrderDTO();
+
+      userOrder.Status = e.Status;
+      userOrder.TotalPrice = e.TotalPrice;
+      let arr = e.orderedItems.map((e) => e.item.ItemName);
+      userOrder.Items = arr.join(',');
+      userOrders.push(userOrder);
+    }
+
+    return userOrders;
+  }
+  
 }
