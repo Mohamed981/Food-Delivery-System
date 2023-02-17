@@ -38,8 +38,8 @@ services:
        MYSQL_USER: user
        MYSQL_DATABASE: restaurants
        DB_HOST: mysql_database
- volumes:
-   mysql: {}
+volumes:
+  mysql: {}
 
 # angular
   angular:

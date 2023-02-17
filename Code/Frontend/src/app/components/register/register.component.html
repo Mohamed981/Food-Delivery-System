@@ -1,62 +1,70 @@
-<h1 style="text-align: center;">
-    Register Page
-</h1>
-<form [formGroup]="registerForm">
-    <div class="container">
-
-        <mat-form-field>
-            <input matInput placeholder="Username" formControlName="Username" [(ngModel)]="registeredUser.Username">
-            <mat-hint *ngIf="registerForm.get('Username')?.errors">Username is required</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Email" formControlName="Email" [(ngModel)]="registeredUser.Email">
-            <mat-hint *ngIf="registerForm.get('Email')?.errors">Email is required</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput type="password" placeholder="Password" formControlName="Password" [(ngModel)]="registeredUser.Password">
-            <mat-hint *ngIf="registerForm.get('Password')?.errors">Password is required</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput type="password" placeholder="Password Confirmation" formControlName="ConfirmPassword">
-            <mat-hint *ngIf="registerForm.hasError('passwordsNotMatching')">Passwords not matching</mat-hint>
-        </mat-form-field>
-    </div>
-    <label>
-        <input type="radio" [value]="false" formControlName="IsOwner" [(ngModel)]="registeredUser.IsOwner">
-        <span>Client</span>
-    </label>
-    <label>
-        <input type="radio" [value]="true" formControlName="IsOwner" [(ngModel)]="registeredUser.IsOwner">
-        <span>Owner</span>
-    </label>
-</form>
-<h3 *ngIf="registerForm.invalid">Form contains following errors</h3>
-<small *ngIf="registerForm.get('password')?.hasError('passwordInvalid')">Password is not containing a number</small>
-<br>
-<small *ngIf="registerForm.hasError('passwordsNotMatching')">Passwords not matching</small>
-
-<form *ngIf="registerForm.value.IsOwner" [formGroup]="restaurantForm">
-    <h1 style="text-align: center;">
-        Add Restaurant
+<div class="registerForm">
+    <h1>
+        Register
     </h1>
-    <div class="container">
-        <mat-form-field>
-            <input matInput placeholder="RestaurantName" formControlName="RestaurantName" [(ngModel)]="registeredUser.RestaurantName">
-            <mat-hint *ngIf="restaurantForm.controls['RestaurantName']?.errors">Name is required</mat-hint>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Restaurant Category" formControlName="Category" [(ngModel)]="registeredUser.Category">
-            <mat-hint *ngIf="restaurantForm.controls['Category']?.errors">Category is required</mat-hint>
-        </mat-form-field>
-        
+    <form [formGroup]="registerForm">
+        <div class="container">
+
+            <mat-form-field>
+                <input matInput placeholder="Username" formControlName="Username" [(ngModel)]="registeredUser.Username">
+                <mat-hint *ngIf="registerForm.get('Username')?.errors">Username is required</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Email" formControlName="Email" [(ngModel)]="registeredUser.Email">
+                <mat-hint *ngIf="registerForm.get('Email')?.errors">Email is required</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput type="password" placeholder="Password" formControlName="Password"
+                    [(ngModel)]="registeredUser.Password">
+                <mat-hint *ngIf="registerForm.get('Password')?.errors">Password is required</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput type="password" placeholder="Password Confirmation" formControlName="ConfirmPassword">
+                <mat-hint *ngIf="registerForm.hasError('passwordsNotMatching')">Passwords not matching</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="radioButtonGroup">
+            <label>
+                <input type="radio" [value]="false" formControlName="IsOwner" [(ngModel)]="registeredUser.IsOwner">
+                <span>Client</span>
+            </label>
+            <label>
+                <input type="radio" [value]="true" formControlName="IsOwner" [(ngModel)]="registeredUser.IsOwner">
+                <span>Owner</span>
+            </label>
+        </div>
+    </form>
+    <form *ngIf="registerForm.value.IsOwner" [formGroup]="restaurantForm">
+        <h1 style="text-align: center;">
+            Add Restaurant
+        </h1>
+        <div class="container">
+            <mat-form-field>
+                <input matInput placeholder="RestaurantName" formControlName="RestaurantName"
+                    [(ngModel)]="registeredUser.RestaurantName">
+                <mat-hint *ngIf="restaurantForm.controls['RestaurantName']?.errors">Name is required</mat-hint>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Restaurant Category" formControlName="Category"
+                    [(ngModel)]="registeredUser.Category">
+                <mat-hint *ngIf="restaurantForm.controls['Category']?.errors">Category is required</mat-hint>
+            </mat-form-field>
+
+        </div>
+    </form>
+    <div *ngIf="errors?.length">
+        <div *ngFor="let error of errors">
+            {{error}}
+        </div>
     </div>
-</form>
-<button mat-flat-button color="primary" [disabled]="!isValid()" (click)="onSubmit()">Register</button>
-<div *ngIf="errors?.length">
-    <div *ngFor="let error of errors">
-        {{error}}
+    <span style="font-size:25px;">
+        Already registered?
+        <a href="/">&nbsp;Sign In</a>
+    </span>
+    <div>
+        <button mat-flat-button color="primary" [disabled]="!isValid()" (click)="onSubmit()">Register</button>
     </div>
 </div>

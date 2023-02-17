@@ -13,15 +13,6 @@ const routes: Routes = [
       import('./components/pages/pages.module').then((m) => m.PagesModule),
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      permissions: {
-        except: 'Admin',
-      },
-    },
-  },
-  {
     path: 'register',
     component: RegisterComponent,
     data: {

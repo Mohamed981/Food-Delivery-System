@@ -14,6 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatCardModule } from '@angular/material/card';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    NgSelectModule
+    NgSelectModule,
+    MatCardModule,
+    SharedModule
   ],
 })
 export class PagesModule {}

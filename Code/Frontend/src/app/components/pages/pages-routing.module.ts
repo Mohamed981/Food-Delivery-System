@@ -7,7 +7,7 @@ import { PagesComponent } from './pages.component';
 const routes: Routes = [
   {
     path: '',
-    component: PagesComponent,
+    component: LoginComponent,
     //canActivateChild: [Authorization],
     children: [
       {

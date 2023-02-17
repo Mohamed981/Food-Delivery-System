@@ -1,21 +1,30 @@
-<h1 style="text-align: center;">
-    Login Page
-</h1>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="container">
-        <mat-form-field>
-            <input matInput placeholder="Email" formControlName="Email">
-            <mat-hint *ngIf="loginForm.controls['Email']?.errors">Email is required</mat-hint>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput type="password" placeholder="Password" formControlName="Password">
-            <mat-hint *ngIf="loginForm.controls['Password']?.errors">Password is required</mat-hint>
-        </mat-form-field>
-        <button mat-flat-button color="primary" [disabled]="!loginForm.valid" type="submit">Login</button>
-    </div>
-</form>
-<div *ngIf="errors?.length">
-    <div *ngFor="let error of errors">
-        {{error}}
-    </div>
+<div class="loginForm">
+    <h1>
+        Log In
+    </h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+            <mat-form-field>
+                <input matInput placeholder="Email" formControlName="Email">
+                <mat-hint *ngIf="loginForm.controls['Email']?.errors">Email is required</mat-hint>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="password" placeholder="Password" formControlName="Password">
+                <mat-hint *ngIf="loginForm.controls['Password']?.errors">Password is required</mat-hint>
+            </mat-form-field>
+            <span style="font-size:25px;">
+                Don't have an account?
+                <a href="/register">&nbsp;Sign Up</a>
+            </span>
+            <div *ngIf="errors?.length" class="errors">
+                <div *ngFor="let error of errors">
+                    {{error}}
+                </div>
+            </div>
+            <div>
+            <button mat-flat-button color="primary" [disabled]="!loginForm.valid" type="submit">Login</button>
+        </div>
+        </div>
+    </form>
+
 </div>

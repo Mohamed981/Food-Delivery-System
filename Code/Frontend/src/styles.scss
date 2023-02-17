@@ -27,18 +27,58 @@ input:hover {
     box-shadow: inset 0 -2px rgb(180, 47, 47);
 }
 
-// input,
-// fieldset {
-//     font-family: sans-serif;
-//     font-size: 1em;
-//     margin: 0;
-//     padding: 0;
-//     border: 1;
-//     line-height: 1.5;
-//     text-align: center;
-//     padding: 10px;
-// }
+.registerForm {
+    -webkit-box-shadow: -2px -1px 15px 7px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: -3px -2px 30px 14px rgba(0, 0, 0, 0.425);
+    box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.35);
+    
+    background-color: white;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 8em auto;
+    align-items: center;
+    text-align: center;
+    font-size: 40px;
+    mat-form-field{
+        margin: 1em auto;
+        min-width: 550px;
+    }
+    button{
+        margin: auto auto 1em auto;
+    }
+  }
 
+.loginForm {
+    -webkit-box-shadow: -2px -1px 15px 7px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: -3px -2px 30px 14px rgba(0, 0, 0, 0.425);
+    box-shadow: -4px -3px 45px 21px rgba(0, 0, 0, 0.35);
+    
+    background-color: white;
+    border-radius: 8px;
+    max-width: 550px;
+    margin: 8em auto;
+    align-items: center;
+    text-align: center;
+    font-size: 40px;
+    mat-form-field{
+        margin: 1em auto;
+        min-width: 500px;
+    }
+    button{
+        margin: auto auto 1em auto;
+    }
+  }
+  mat-hint{
+    color: red;
+  }
+  .errors{
+    background-color: red;
+  }
+  .radioButtonGroup{
+    label{
+        margin: auto 2em;
+    }
+  }
 .search{
     height: 3em;
     padding: 10px 10px;
