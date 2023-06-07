@@ -43,5 +43,12 @@ Then go to http://localhost:4200
 * phpmyadmin (Deployment)
 ---
 # Backend
-
+## Architecture
+The project is built on the repository pattern
+## Database
+![img](./schema.PNG)
+# Authentication
+First the user registers as Owner or Client to the system then he will be provided by a JWT bearer token on every request he sends.
+# Authorization
+After authenticating the user he will be checked on every request either if he can/not do the specified request.
 # Made with :heart: __    <a href = "https://www.linkedin.com/in/mohamed-akram-16155b1a3/">Mohamed Akram</a>
